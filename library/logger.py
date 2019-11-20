@@ -1,21 +1,30 @@
-import logging
-import time
-filename = '{}'.format(time.strftime("%Y%m%d-%H%M%S"))
+import logging, time, os
 
-general_logger = logging.getLogger(name='GeneralLog')
-measurement_logger = logging.getLogger(name='MeasurementLog')
+def create_logger(folder, name, file_type):
+    logger = logging.getLogger(name=name)
+    handler = logging.FileHandler('{}/{}.{}'.format(folder, name, file_type))
+    handler.setLevel(logging.INFO)
 
-c_handler = logging.StreamHandler()
-f_handler = logging.FileHandler('logs/client/')
-c_handler.setLevel(logging.WARNING)
-f_handler.setLevel(logging.ERROR)
+    if file_type == 'csv':
+        formatter = logging.Formatter('%(message)s')
+    else:
+        formatter = logging.Formatter('[%(asctime)s] (%(name)s) %(message)s')
 
-# Create formatters and add it to handlers
-c_format = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
-f_format = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-c_handler.setFormatter(c_format)
-f_handler.setFormatter(f_format)
+    handler.setFormatter(formatter)
+    logger.addHandler(logger)
 
-# Add handlers to the logger
-logger.addHandler(c_handler)
-logger.addHandler(f_handler)
+    return logger
+
+try:
+    client_folder = 'logs/client/{}'.format(time.strftime("%Y%m%d-%H%M%S"))
+    server_folder = 'logs/server/{}'.format(time.strftime("%Y%m%d-%H%M%S"))
+    os.mkdir(client_folder)
+    os.mkdir(server_folder)
+
+    client_general_logger       = create_logger(client_folder, 'ClientGeneralLog', 'log')
+    client_measurement_logger   = create_logger(client_folder, 'client_analysis', 'csv')
+    server_general_logger       = create_logger(client_folder, 'ServerGeneralLog', 'log')
+    server_measurement_logger   = create_logger(client_folder, 'server_analysis', 'csv')
+
+except Exception as e:
+    print('Error with Logger: ', e)
