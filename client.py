@@ -9,11 +9,6 @@ def main():
     except Exception as e:
         pass
 
-    try:
-        os.mkdir('logs/client')
-    except Exception as e:
-        pass
-
     if len(sys.argv) != 3:
         print('Usage:', sys.argv[0], '<ip> <port>')
         return
