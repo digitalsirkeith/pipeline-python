@@ -9,8 +9,9 @@ def main():
         print('Usage:', sys.argv[0], '<ip> <port> <filename>')
         return
 
-    client = Client(*tuple(sys.argv[1:3]))
-    client.send(sys.argv[3])
+    client = Client(*tuple(sys.argv[1:]))
+    client.start()
+    client.join()
 
 if __name__ == '__main__':
     main()

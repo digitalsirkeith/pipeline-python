@@ -10,8 +10,8 @@ def main():
         return
     
     server = Server(int(sys.argv[1]))
-    server.accept()
-    server.receive()
+    server.start()
+    server.join()
 
 if __name__ == '__main__':
     main()
