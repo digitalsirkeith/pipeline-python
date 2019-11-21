@@ -33,3 +33,10 @@ Open the [.env](.env) file. Here is the description of each parameter:
 
 # Logging
 Open the folders inside `client` and `server` inside the `log` folder. These folders should be empty if the analysis has not been started or run before. Once started, they should contain the raw block latency log files. The useful data should be inside `server_analysis.csv` and `client_analysis.csv` files.
+
+# Clearing the logs
+## WARNING: Do not run the script unless you are absolutely sure you wish to clear the logs. You may want to create a backup just in case.
+Run the following code to clear all the logs.
+```
+./clear_logs.sh
+```

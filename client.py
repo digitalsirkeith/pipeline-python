@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 
-import os, sys
+import os, sys, dotenv
+dotenv.load_dotenv()
+from library.transmission.client import Client
 
 def main():
-    # INITIALIZING LOG FOLDERS
-    try:
-        os.mkdir('logs')
-    except Exception as e:
-        pass
-
-    if len(sys.argv) != 3:
-        print('Usage:', sys.argv[0], '<ip> <port>')
+    if len(sys.argv) != 4:
+        print('Usage:', sys.argv[0], '<ip> <port> <filename>')
         return
+
+    client = Client(*tuple(sys.argv[1:3]))
+    client.send(sys.argv[3])
 
 if __name__ == '__main__':
     main()

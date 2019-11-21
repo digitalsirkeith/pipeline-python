@@ -13,7 +13,7 @@ try:
     folder = 'logs/server/{}'.format(time.strftime("%Y%m%d-%H%M%S"))
     os.mkdir(folder)
 
-    general_logger       = create_logger(folder, 'server_log', 'log')
+    general_logger       = create_logger(folder, 'server', 'log')
     measurement_logger   = create_logger(folder, 'server_analysis', 'csv')
 
 except Exception as e:
