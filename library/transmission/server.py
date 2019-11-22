@@ -39,14 +39,11 @@ class Server(Thread):
         except:
             pass
         try:
-            data_len = int(os.getenv('TRANSMISSION_BLOCKLEN'))
             file_name = self.recv_filename()
-
             self.send_to_decryption(file_name)
 
             while True:
-                data = self.conn.recv(data_len)
-                
+                data = self.recv_data()
                 if not data:
                     general_logger.info("Client disconnected.")
                     break
@@ -60,10 +57,8 @@ class Server(Thread):
 
     def recv_filename(self):
         try:
-            length = int(self.conn.recv(8).decode())
-            file_name = self.conn.recv(length).decode()
-
-            general_logger.info('Filename received (%d bytes): %s', length, file_name)
+            file_name = self.recv_data().decode()
+            general_logger.info('Filename received: %s', file_name)
             return file_name
             
         except:
@@ -71,3 +66,9 @@ class Server(Thread):
 
     def send_to_decryption(self, data):
         self.et_queue.put(data, block=True)
+
+    def recv_data(self):
+        data_len = self.conn.recv(8)
+        if not data_len:
+            return None
+        return self.conn.recv(int(data_len))

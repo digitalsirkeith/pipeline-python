@@ -39,9 +39,7 @@ class Client(Thread):
 
     def send_filename(self):
         try:
-            length = len(self.filename)
-            self.socket.send(format(length, "08").encode())
-            self.socket.send(self.filename.encode())
+            self.send_data(self.filename.encode())
             general_logger.info('Filename sent.')
         except:
             general_logger.error('Sending filename failed.', exc_info=True)
@@ -52,10 +50,15 @@ class Client(Thread):
                 encrypted_data = self.read_from_encryption()
                 if encrypted_data is None:
                     break
-                self.socket.send(encrypted_data)
+                self.send_data(encrypted_data)
 
         except:
             general_logger.error('Sending file failed.', exc_info=True)
 
     def read_from_encryption(self):
         return self.et_queue.get(block=True)
+
+    def send_data(self, data):
+        length = len(data)
+        self.socket.send(format(length, "08").encode())
+        self.socket.send(data)

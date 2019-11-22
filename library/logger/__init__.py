@@ -6,7 +6,7 @@ def create_logger(folder, name, file_type):
     filename='{}/{}.{}'.format(folder, name, file_type)
     logger = logging.getLogger(name=name)
     handler = logging.FileHandler(filename)
-    handler.setLevel(logging.INFO)
+    handler.setLevel(logging.DEBUG)
 
     if file_type == 'csv':
         formatter = logging.Formatter('%(message)s')
