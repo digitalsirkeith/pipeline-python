@@ -42,25 +42,18 @@ class Server(Thread):
             data_len = int(os.getenv('TRANSMISSION_BLOCKLEN'))
             file_name = self.recv_filename()
 
-            # while True:
-            #     data = self.et_queue.get(block=True)
+            self.send_to_decryption(file_name)
 
-            with open(f'sample/server/{file_name}', 'wb') as f:
-                general_logger.info(f'File created with name: sample/server/{file_name}')
-
-                while True:
-                    data = self.conn.recv(data_len)
-
-                    if not data:
-                        general_logger.info("Client disconnected.")
-                        break
-
-                    else:
-                        f.write(data)
-                        general_logger.debug('Receiving data (%d bytes).', len(data))
-                        general_logger.debug('Message: %s', data)
-
-                general_logger.info("Saving file.")
+            while True:
+                data = self.conn.recv(data_len)
+                
+                if not data:
+                    general_logger.info("Client disconnected.")
+                    break
+                else:
+                    self.send_to_decryption(data)
+            self.send_to_decryption(None)
+            general_logger.info('Server Thread exiting.')
 
         except:
             general_logger.error("Failed to receive file.", exc_info=True)
@@ -75,3 +68,6 @@ class Server(Thread):
             
         except:
             general_logger.error("Failed to receive filename", exc_info=True)
+
+    def send_to_decryption(self, data):
+        self.et_queue.put(data, block=True)

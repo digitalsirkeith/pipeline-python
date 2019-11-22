@@ -12,14 +12,19 @@ class Encryptor(Thread):
 
     def run(self):
         general_logger.info('Encryptor Thread Started')
+        
         while True:
             compressed_data = self.read_from_compression()
             if compressed_data is None:
                 break
-            self.send_to_transmission(compressed_data)
+            encrypted_data = self.encrypt(compressed_data)
+            self.send_to_transmission(encrypted_data)
+
         self.send_to_transmission(None)
         general_logger.info('Encryptor Thread Exited')
 
+    def encrypt(self, data):
+        return data
 
     def read_from_compression(self):
         return self.ce_queue.get(block=True)
