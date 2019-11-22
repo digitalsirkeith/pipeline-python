@@ -4,11 +4,12 @@ from threading import Thread
 import os
 
 class Server(Thread):
-    def __init__(self, port):
+    def __init__(self, port, et_queue):
         super(Server, self).__init__()
-        
+
         self.port = port
         self.conn = None
+        self.et_queue = et_queue
 
         try:
             self.socket = socket(AF_INET, SOCK_STREAM)
@@ -38,8 +39,11 @@ class Server(Thread):
         except:
             pass
         try:
-            data_len = int(os.getenv('ENCRYPTION_BLOCKLEN'))
+            data_len = int(os.getenv('TRANSMISSION_BLOCKLEN'))
             file_name = self.recv_filename()
+
+            # while True:
+            #     data = self.et_queue.get(block=True)
 
             with open(f'sample/server/{file_name}', 'wb') as f:
                 general_logger.info(f'File created with name: sample/server/{file_name}')

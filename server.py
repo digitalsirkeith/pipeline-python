@@ -9,7 +9,7 @@ def main():
         print('Usage:', sys.argv[0], '<port>')
         return
     
-    server = Server(int(sys.argv[1]))
+    server = Server(int(sys.argv[1]), None)
     server.start()
     server.join()
 

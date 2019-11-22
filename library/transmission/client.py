@@ -4,12 +4,13 @@ from threading import Thread
 import os
 
 class Client(Thread):
-    def __init__(self, server_ip, server_port, filename):
+    def __init__(self, et_queue, server_ip, server_port, filename):
         super(Client, self).__init__()
 
         self.server_ip = server_ip
         self.server_port = int(server_port)
         self.filename = filename
+        self.et_queue = et_queue
 
         try:
             self.socket = socket(AF_INET, SOCK_STREAM)
@@ -25,7 +26,7 @@ class Client(Thread):
     def run(self):
         general_logger.info('Client Thread now running.')
         self.send()
-        pass
+        general_logger.info('Client Thread now exited.')
 
     def send(self):
         try:
@@ -46,17 +47,15 @@ class Client(Thread):
             general_logger.error('Sending filename failed.', exc_info=True)
 
     def send_file(self):
-        data_len = int(os.getenv('ENCRYPTION_BLOCKLEN'))
-        
         try:
-            with open(f'sample/client/{self.filename}', 'rb') as f:
-                while True:
-                    data = f.read(data_len)
-                    if len(data) < data_len:
-                        if len(data):
-                            self.socket.send(data)
-                        break
-                    else:
-                        self.socket.send(data)
+            while True:
+                encrypted_data = self.read_from_encryption()
+                if encrypted_data is None:
+                    break
+                self.socket.send(encrypted_data)
+
         except:
             general_logger.error('Sending file failed.', exc_info=True)
+
+    def read_from_encryption(self):
+        return self.et_queue.get(block=True)
