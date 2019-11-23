@@ -1,7 +1,6 @@
-from zlib import decompress
 from threading import Thread
 from library.logger.server import general_logger, measurement_logger
-import os
+import os, zlib
 
 class Decompressor(Thread):
     def __init__(self, ce_queue):
@@ -25,7 +24,7 @@ class Decompressor(Thread):
         general_logger.info('Decompressor Thread Exited')
 
     def decompress(self, data):
-        return data
+        return zlib.decompress(data)
 
     def read_from_decryption(self):
         return self.ce_queue.get(block=True)
