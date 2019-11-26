@@ -10,7 +10,7 @@ class Compressor(Thread):
         
     def run(self):
         general_logger.info('Compressor Thread Started')
-        data_len = int(os.getenv('COMPRESSION_BLOCKLEN'))
+        data_len = int(os.getenv('BLOCKLEN'))
         original_size = 0
         compressed_size = 0
 
