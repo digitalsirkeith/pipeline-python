@@ -46,11 +46,14 @@ class Client(Thread):
 
     def send_file(self):
         try:
+            total_size = 0
             while True:
                 encrypted_data = self.read_from_encryption()
                 if encrypted_data is None:
                     break
+                total_size += len(encrypted_data)
                 self.send_data(encrypted_data)
+            general_logger.info('Total encrypted file size: %s', total_size)
 
         except:
             general_logger.error('Sending file failed.', exc_info=True)

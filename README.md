@@ -19,7 +19,7 @@ To run the server:
 
 To run the client:
 ```
-./client.py <ip> <port>
+./client.py <ip> <port> <filename>
 ```
 
 # Tweaking the parameters
@@ -28,9 +28,7 @@ Open the [.env](.env) file. Here is the description of each parameter:
 -   ENCRYPTION_BLOCKLEN - Length of the each encryption block.
 -   TRANSMISSION_BLOCKLEN - Length of the each transmission block.
 -   COMPRESSION_BLOCKNUM - Number of compression blocks.
--   ENCRYPTION_BLOCKNUM - Number of encryption blocks.
--   TRANSMISSION_BLOCKNUM - Number of compression blocks.
-
+-   
 # Logging
 Open the folders inside `client` and `server` inside the `log` folder. These folders should be empty if the analysis has not been started or run before. Once started, they should contain the raw block latency log files. The useful data should be inside `server_analysis.csv` and `client_analysis.csv` files.
 
