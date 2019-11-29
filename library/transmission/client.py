@@ -30,16 +30,16 @@ class Client(Thread):
 
     def send(self):
         try:
-            self.send_filename()
+            self.send_filename(self.filename)
             self.send_file()
             general_logger.info('File (%s) sent.', self.filename)
 
         except:
             general_logger.error('Sending File failed', exc_info=True)
 
-    def send_filename(self):
+    def send_filename(self, filename):
         try:
-            self.send_data(self.filename.encode())
+            self.send_data(filename.encode())
             general_logger.info('Filename sent.')
         except:
             general_logger.error('Sending filename failed.', exc_info=True)

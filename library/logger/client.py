@@ -10,9 +10,12 @@ try:
 except:
     pass
 try:
-    folder = 'logs/client/{}'.format(time.strftime("%Y%m%d-%H%M%S"))
+    folder = 'logs/client/{}'.format(time.strftime("%Y%m%d"))
     os.mkdir(folder)
+except:
+    pass
 
+try:
     general_logger       = create_logger(folder, 'client', 'log')
     measurement_logger   = create_logger(folder, 'client_analysis', 'csv')
 

@@ -5,12 +5,14 @@ dotenv.load_dotenv()
 from library.transmission.server import Server
 from library.compression.decompressor import Decompressor
 from library.encryption.decryptor import Decryptor
+from library.logger.server import measurement_logger
 from queue import Queue
 
 def main():
     if len(sys.argv) != 2:
         print('Usage:', sys.argv[0], '<port>')
         return
+    measurement_logger.info('Layer, Filename, Start Time, End Time')
 
     ce_bufsize = int(os.getenv('CE_BUFSIZE'))
     et_bufsize = int(os.getenv('ET_BUFSIZE'))

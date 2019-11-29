@@ -1,0 +1,2 @@
+give focus on the application
+explain context ng system
