@@ -20,28 +20,30 @@ def main():
 
     files = [(f, os.stat(path(f)).st_size) for f in os.listdir('sample/client') if os.path.isfile(path(f)) and f != '.DS_Store']
     gen_count = int(os.getenv('GEN_CNT'))
+    pop_count = int(os.getenv('POP_CNT'))
 
-    for gen_num in range(gen_count):
-        for filename, filesize in files:
-            ce_bufsize = int(os.getenv('CE_BUFSIZE'))
-            et_bufsize = int(os.getenv('ET_BUFSIZE'))
+    ce_bufsize = 32
+    et_bufsize = 32
 
-            ce_queue = Queue(ce_bufsize)
-            et_queue = Queue(et_bufsize)
-            
-            server = Server(port, et_queue)
-            decryptor = Decryptor(ce_queue, et_queue)
-            decompressor = Decompressor(ce_queue)
+    for _ in range(gen_count):
+        for __ in range(pop_count):
+            for ___ in files:
+                ce_queue = Queue(ce_bufsize)
+                et_queue = Queue(et_bufsize)
+                
+                server = Server(port, et_queue)
+                decryptor = Decryptor(ce_queue, et_queue)
+                decompressor = Decompressor(ce_queue)
 
-            server.start()
-            decryptor.start()
-            decompressor.start()
-            
-            server.join()
-            decryptor.join()
-            decompressor.join()
+                server.start()
+                decryptor.start()
+                decompressor.start()
+                
+                server.join()
+                decryptor.join()
+                decompressor.join()
 
-            port = port + 1
+                port = port + 1
 
 if __name__ == '__main__':
     main()

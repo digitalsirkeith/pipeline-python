@@ -1,12 +1,12 @@
 import logging, time, os
 
-logging.getLogger().setLevel(logging.DEBUG)
+logging.getLogger().setLevel(logging.WARNING)
 
 def create_logger(folder, name, file_type):
     filename='{}/{}.{}'.format(folder, name, file_type)
     logger = logging.getLogger(name=name)
     handler = logging.FileHandler(filename)
-    handler.setLevel(logging.DEBUG)
+    handler.setLevel(logging.WARNING)
 
     if file_type == 'csv':
         formatter = logging.Formatter('%(message)s')

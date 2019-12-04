@@ -18,6 +18,7 @@ except:
 try:
     general_logger       = create_logger(folder, 'client', 'log')
     measurement_logger   = create_logger(folder, 'client_analysis', 'csv')
+    score_logger         = create_logger(folder, 'score', 'csv')
 
 except Exception as e:
     print('Error with Client Logger: ', e)
