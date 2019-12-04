@@ -1,7 +1,7 @@
 from socket import socket, gethostname, AF_INET, SOCK_STREAM
 from library.logger.client import general_logger, measurement_logger
 from threading import Thread
-import os
+import os, time
 
 class Client(Thread):
     def __init__(self, et_queue, server_ip, server_port, filename):
@@ -14,10 +14,13 @@ class Client(Thread):
 
         try:
             self.socket = socket(AF_INET, SOCK_STREAM)
-            self.socket.connect((
-                self.server_ip,
-                self.server_port
-            ))
+            while True:
+                try:
+                    self.socket.connect((self.server_ip, self.server_port))
+                    break
+                except:
+                    # general_logger.info('Server not ready, %s:%d', self.server_ip, self.server_port)
+                    pass
             general_logger.info('Client now connected to: %s with port %s', self.server_ip, self.server_port)
 
         except:
@@ -26,6 +29,7 @@ class Client(Thread):
     def run(self):
         general_logger.info('Client Thread now running.')
         self.send()
+        self.socket.close()
         general_logger.info('Client Thread now exited.')
 
     def send(self):

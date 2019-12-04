@@ -10,7 +10,7 @@ try:
 except:
     pass
 try:
-    folder = 'logs/client/{}'.format(time.strftime("%Y%m%d"))
+    folder = 'logs/client/{}'.format(time.strftime("%Y%m%d_%H%M%S"))
     os.mkdir(folder)
 except:
     pass
