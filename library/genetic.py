@@ -13,8 +13,8 @@ class Sample():
 
     def mutate(self):
         compression_level = (self.compression_level + random.randint(-4, 4)) % 10
-        ce_bufsize = 1 + ((self.ce_bufsize + random.randint(-8, 8)) % 32)
-        et_bufsize = 1 + ((self.et_bufsize + random.randint(-8, 8)) % 32)
+        ce_bufsize = 2 + ((self.ce_bufsize + random.randint(-10, 6)) % 32)
+        et_bufsize = 2 + ((self.et_bufsize + random.randint(-10, 6)) % 32)
         block_size = 32 + ((self.block_size + random.randint(-8192, 8192)) % 16352)
 
         return Sample(compression_level, ce_bufsize, et_bufsize, block_size)

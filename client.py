@@ -14,7 +14,7 @@ def main():
         print('Usage:', sys.argv[0], '<ip>')
         return
     measurement_logger.info('Generation, Sample ID, Latency (seconds), Throughput(Bytes / second)')
-    score_logger.warn('Generation, Filename, Sample ID, Latency (seconds),' + 
+    score_logger.warn('Generation, Sample ID, Latency (seconds),' + 
                                 ' Throughput(Bytes / second), Compression Level, CE_Queue Size, ET_Queue Size, Queue Block Length')
 
     port = int(os.getenv('INITIAL_PORT'))
@@ -49,7 +49,7 @@ def main():
                 end = time.time()
 
                 port = port + 1
-                time.sleep(2)
+                time.sleep(5)
                 measurement_logger.info('%d, %d, %s, %lf, %lf', gen_num, sample_id, filename, end-start, filesize/(end-start))
                 total_filesize = total_filesize + filesize
                 total_time = total_time + end - start
@@ -58,7 +58,7 @@ def main():
             score_logger.warn('%d, %d, %lf, %lf, %d, %d, %d, %d', 
                 gen_num, sample_id, total_time, total_filesize/total_time,
                     sample.compression_level, sample.ce_bufsize, sample.et_bufsize, sample.block_size)
-                    
+
         population.generate_next()
 
 if __name__ == '__main__':
